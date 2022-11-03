@@ -3,13 +3,13 @@ import { Notificacion } from './notificacion.model';
 import { Prestamo } from './prestamo.model';
 
 enum TipoUsuario {
-  Administrador,
-  Simple
+  Administrador = 0,
+  Simple = 1
 }
 
 enum TipoNotificacion {
-  Mail, //envia una notificacion por mail
-  NoRecibir //No envia nada
+  Mail = 0, //envia una notificacion por mail
+  NoRecibir = 1 //No envia nada
 }
 
 @model()
@@ -17,16 +17,14 @@ export class Usuario extends Entity {
   @property({
     type: 'array',
     itemType: 'object',
-    required: true,
   })
-  Prestamos: Prestamo[];
+  Prestamos?: Prestamo[];
 
   @property({
     type: 'array',
     itemType: 'object',
-    required: true,
   })
-  Notificaciones: Notificacion[];
+  Notificaciones?: Notificacion[];
 
   @property({
     type: 'number',
@@ -60,13 +58,19 @@ export class Usuario extends Entity {
   Mail: string;
 
   @property({
-    type: 'object',
+    type: 'number',
+    jsonSchema: {
+      enum: Object.values(TipoUsuario),
+    },
     required: true,
   })
   Tipo: TipoUsuario;
 
   @property({
-    type: 'object',
+    type: 'number',
+    jsonSchema: {
+      enum: Object.values(TipoNotificacion),
+    },
     required: true,
   })
   TipoNotificacion: TipoNotificacion;
